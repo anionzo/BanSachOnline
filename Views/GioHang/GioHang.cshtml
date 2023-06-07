@@ -48,7 +48,7 @@
     }
     else
     {
-       
+
         <div class="container-cart">
             @*<h3>Giỏ hàng của bạn</h3>*@
             <div class="list-cart">
@@ -58,7 +58,7 @@
                             <tr>
                                 <th>Sản Phẩm</th>
                                 <th>Số Lượng</th>
-                                <th>Giá C</th>
+                                <th>Giá Cả</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -66,7 +66,14 @@
                             @foreach (var item in lstGioHang)
                             {
                                 SACH sitem = lstSach.Single(x => x.MASACH == item.MASACH);
-                                total += (int)item.SOLUONG * (double)sitem.DONGIABAN;
+                                if (item.SOLUONG == null)
+                                {
+                                    total = 0;
+                                }
+                                else
+                                {
+                                    total += (int)item.SOLUONG * (double)sitem.DONGIABAN;
+                                }
                                 int max = (int)sitem.SLTON;
                                 using (Html.BeginForm("CapNhatGioHang", "GioHang", new { MaSP = item.MASACH, idkh = item.MAKH }))
                                 {
@@ -87,8 +94,18 @@
                                                 </div>
                                             </div>
                                         </td>
-                                        <td class="cart__price">@string.Format("{0:0,0} VNĐ", (int)item.SOLUONG * (double)sitem.DONGIABAN)</td>
-                                        <td class="cart__close"><a href="@Url.Action("XoaGioHang", "GioHang", new { MaSP=item.MASACH, idkh=item.MAKH })"><i class="fa fa-close"></i></a></td>
+                                        
+                                        <td class="cart__price">
+                                            @{
+                                                int soluong = item.SOLUONG.HasValue ? item.SOLUONG.Value : 0;
+                                                double dongia = (double)sitem.DONGIABAN;
+                                                double totalPrice = soluong * dongia;
+                                                string formattedPrice = string.Format("{0:0,0} VNĐ", totalPrice);
+                                            }
+                                            @formattedPrice
+                                        </td>
+
+                                        <td class="cart__close"><a onclick="xoaGioHang(@item.MASACH, @item.MAKH )" href="#"><i class="fa fa-close"></i></a></td>
                                         <td class="cart__close"><button type="submit" style="border-radius:50%; border:none; width:40px; height:40px; display:flex; margin-left:10px;"><i class="fa fa-check-circle" style="color:green;"></i></button></td>
                                     </tr>
                                 }
@@ -127,5 +144,37 @@
         </div>
     }
 </div>
+@{
+    var xoaGioHangUrl = Url.Action("XoaGioHang", "GioHang");
+}
+
+<script>
+    async function xoaGioHang(mas, makh) {
+        const result = await Swal.fire({
+            title: 'Xoá Sản Phẩm giỏ hàng?',
+            text: "Sản phẩm sẽ được xoá khỏi giỏ hàng!",
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Xoá Khỏi Giỏ!'
+        });
+
+        if (result.isConfirmed) {
+            Swal.fire({
+                title: 'Thông báo',
+                text: 'Bạn đã xóa thành công!',
+                icon: 'success'
+            });
+
+            setTimeout(function () {
+                var url = '@xoaGioHangUrl' + '?MaSP=' + mas + '&idkh=' + makh;
+                window.location.href = url;
+            }, 2000); // Độ trễ 2 giây (2000 milliseconds)
+        }
+    }
+</script>
+
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 <script src="~/DULIEU/KhachHang/js/cart.js"></script>

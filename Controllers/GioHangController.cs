@@ -184,7 +184,7 @@ namespace BanSachOnline.Controllers
                 {
                     try
                     {
-                      
+
                         DateTime date = DateTime.Now.Date;
                         DONHANG Donhang = new DONHANG();
                         Donhang.NGAYMUA = date;
@@ -192,7 +192,7 @@ namespace BanSachOnline.Controllers
                         Donhang.MAKH = idKH;
                         Donhang.MALDH = 1;
                         Donhang.TRANGTHAI = "Chưa Thanh Toán";
-                       
+
                         db.DONHANGs.InsertOnSubmit(Donhang);
                         db.SubmitChanges();
                         idBill = db.DONHANGs.Max(x => x.MADH);
@@ -264,7 +264,7 @@ namespace BanSachOnline.Controllers
         public ActionResult ChiTietDonHangDonHang(int idHoaDon, int idKH)
         {
             DONHANG donhang = db.DONHANGs.FirstOrDefault(x => x.MADH == idHoaDon);
-            if(idKH == donhang.MAKH)
+            if (idKH == donhang.MAKH)
             {
                 List<CHITIETDH> ctdh = db.CHITIETDHs.Where(x => x.MADH == idHoaDon).ToList();
                 GIAOHANG giaohangs = db.GIAOHANGs.FirstOrDefault(x => x.MADH == idHoaDon);
