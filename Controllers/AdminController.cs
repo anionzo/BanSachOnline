@@ -316,7 +316,7 @@ namespace BanSachOnline.Controllers
                 ViewBag.DHang = giaohang;
                 return View(giaohang);
             }
-            ViewBag.ThonBao = "Không có đơn hàng nào chờ duyệt!";
+            ViewBag.ThonBao = "Không có đơn hàng nào đã duyệt!";
             return View();
         }
         public ActionResult ShowListDonHangDaHuy()
