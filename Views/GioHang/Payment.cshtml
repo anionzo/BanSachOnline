@@ -3,6 +3,7 @@
     List<GIOHANG> GHs = Session["PayList"] as List<GIOHANG>;
     List<SACH> Sachs = Session["Sachs"] as List<SACH>;
     double total = 0;
+    KHACHHANG kh = Session["KH"] as KHACHHANG;
 }
 
 <!doctype html>
@@ -13,7 +14,7 @@
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Jekyll v3.8.5">
-    <title>Checkout example · Bootstrap</title>
+    <title>Thanh Toán</title>
 
     <link rel="canonical" href="https://getbootstrap.com/docs/4.3/examples/checkout/">
 
@@ -57,46 +58,55 @@
                     </div>
                 </div>
                 <div class="col-md-6 order-md-1">
-                    <h4 class="mb-3">Infomation</h4>
+                    <h4 class="mb-3">Thông Tin Giao Hàng</h4>
                     @using (Html.BeginForm("Payment", "GioHang"))
                     {
                         <div class="row">
                             <div class="col-md-12 mb-3">
-                                <label for="firstName">Full name</label>
-                                <input type="text" class="form-control" name="name" id="firstName" placeholder="" value="" required>
+                                <label for="firstName">Họ Và Tên Người Nhận</label>
+                                <input type="text" class="form-control" name="name" id="firstName" placeholder="" value="@kh.TENKH" required>
                                 <div class="invalid-feedback">
-                                    Valid first name is required.
+                                    Tên hợp lệ là bắt buộc.
                                 </div>
                             </div>
                         </div>
 
                         <div class="mb-3">
-                            <label for="phone">Phone</label>
-                            <input type="tel" class="form-control" name="phone" id="phone" placeholder="Phone" required>
+                            <label for="phone">Số Điện Thoại Người Nhận</label>
+                            <input type="tel" class="form-control" name="phone" id="phone" value="@kh.SODIENTHOAI" placeholder="Phone" required>
                             <div class="invalid-feedback" style="width: 100%;">
                                 Your username is required.
                             </div>
                         </div>
 
                         <div class="mb-3">
-                            <label for="address">Address</label>
-                            <input type="text" class="form-control" name="address" id="address" placeholder="1234 Main St" required>
+                            <label for="address">Địa Chỉ</label>
+                            <input type="text" class="form-control" name="address" id="address" placeholder="1234 Số đường,..." required>
                             <div class="invalid-feedback">
-                                Please enter your shipping address.
+                                Vui lòng nhập địa chỉ vận chuyển của bạn.
                             </div>
                         </div>
 
                         <hr class="mb-4">
 
 
-                        <h4 class="mb-3">Payment</h4>
+                        <h4 class="mb-3">Thanh Toán</h4>
 
                         <div class="d-block my-3">
                             <div class="custom-control custom-radio">
                                 <input id="credit" name="paymentMethod" type="radio" class="custom-control-input" checked required>
-                                <label class="custom-control-label" for="credit">When receiving goods</label>
+                                <label class="custom-control-label" for="credit">Khi nhận hàng</label>
+                            </div>
+                            <div class="custom-control custom-radio">
+                                <input id="paypal" name="paymentMethod" type="radio" class="custom-control-input" disabled>
+                                <label class="custom-control-label" for="paypal">PayPal (Đang Phát Triển)</label>
+                            </div>
+                            <div class="custom-control custom-radio">
+                                <input id="bankTransfer" name="paymentMethod" type="radio" class="custom-control-input" disabled>
+                                <label class="custom-control-label" for="bankTransfer">Chuyển khoản ngân hàng (Đang Phát Triển)</label>
                             </div>
                         </div>
+
 
                         <hr class="mb-4">
                         <button type="submit" class="btn btn-primary">Thanh toán</button>

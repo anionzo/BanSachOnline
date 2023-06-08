@@ -185,7 +185,7 @@ namespace BanSachOnline.Controllers
                     try
                     {
 
-                        DateTime date = DateTime.Now.Date;
+                        DateTime date = DateTime.Now;
                         DONHANG Donhang = new DONHANG();
                         Donhang.NGAYMUA = date;
                         Donhang.THANHTIEN = 0;
